@@ -47,7 +47,7 @@ public class CharacterController : MonoBehaviour {
 
 	void FireCandyLaser( ){
 		nextFire = Time.time + 0.1f;
-		audio.Play( );
+		GetComponent<AudioSource>().Play( );
 		if ( toggleFiringPosition ){
 			Instantiate( candyLaser, candyBarrelOne.transform.position, transform.rotation );
 			toggleFiringPosition = false;
@@ -60,7 +60,7 @@ public class CharacterController : MonoBehaviour {
 
 	void FireCandyGrenade( ){
 		nextFire = Time.time + 1.0f;
-		audio.Play( );
+		GetComponent<AudioSource>().Play( );
 		Instantiate( candyGrenade, candyBarrelThree.transform.position, transform.rotation );
 	}
 }

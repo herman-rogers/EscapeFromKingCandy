@@ -13,7 +13,7 @@ public class JellyTurretBehavior : MonoBehaviour {
 		}
 	}
 	void CannonFire( ){
-		audio.Play( );
+		GetComponent<AudioSource>().Play( );
 		cannonCooldownTimer = Time.time + turretFireRate;
 		Instantiate( candyAmmunition, this.transform.position, transform.rotation );
 	}

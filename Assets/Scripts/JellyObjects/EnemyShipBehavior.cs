@@ -21,7 +21,7 @@ public class EnemyShipBehavior : MonoBehaviour {
 	}
 
 	void FireWeapon( ){
-		audio.Play( );
+		GetComponent<AudioSource>().Play( );
 		nextShot = Time.time + 1.0f;
 		Instantiate( candyLaser, gunBarrel.transform.position, transform.rotation );
 	}

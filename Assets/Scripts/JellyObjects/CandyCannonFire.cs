@@ -13,7 +13,7 @@ public class CandyCannonFire : PlayerWeapons {
 
 	override public void OnCollisionEnter2D ( Collision2D col ){
 		if ( col.collider.name.Contains( "PlayerCandyShip" ) ){
-			audio.Play( );
+			GetComponent<AudioSource>().Play( );
 			StartCoroutine( "LaserExplosion" );
 			GlobalGameProperties.playerShields -= 2.0f;
 		}
