@@ -16,17 +16,17 @@ public class GameManager : MonoBehaviour {
 
 	public GameObject textRoot;
 	public float      gameTime;
-	List< UILabel >   listOfLabels;
+    //List< UILabel >   listOfLabels;
 	float             timer;
 
 	void Start( ){
-		UILabel[] getLabels = textRoot.GetComponentsInChildren< UILabel >( );
-		listOfLabels = new List< UILabel >( );
-		foreach( UILabel label in getLabels ){
-			if ( label.tag == "JellyHit" ){
-				listOfLabels.Add( label );
-			}
-		}
+        //UILabel[] getLabels = textRoot.GetComponentsInChildren< UILabel >( );
+        //listOfLabels = new List< UILabel >( );
+        //foreach( UILabel label in getLabels ){
+        //    if ( label.tag == "JellyHit" ){
+        //        listOfLabels.Add( label );
+        //    }
+        //}
 		GlobalGameProperties.currentLevelReached = 7;
 		ToggleEnabledGameLabel( false );
 	}
@@ -78,8 +78,8 @@ public class GameManager : MonoBehaviour {
 
 	IEnumerator DisplayHappyText( ){
 		int getListIndex = Random.Range( 0, 3 );
-		UILabel[] arrayOfLabels = listOfLabels.ToArray( );
-		NGUITools.SetActive( arrayOfLabels[getListIndex].gameObject, true );
+        //UILabel[] arrayOfLabels = listOfLabels.ToArray( );
+        //NGUITools.SetActive( arrayOfLabels[getListIndex].gameObject, true );
 		GlobalGameProperties.showRandomMessage = false;
 		timer = Time.time + 2.0f;
 		yield return new WaitForSeconds( 1.5f );
@@ -87,8 +87,8 @@ public class GameManager : MonoBehaviour {
 	}
 
 	IEnumerator DisplayEndOfGame( ){
-		NGUITools.SetActive( endGameLabel, true );
-		NGUITools.SetActive( endGameScene, true );
+        //NGUITools.SetActive( endGameLabel, true );
+        //NGUITools.SetActive( endGameScene, true );
 		yield return new WaitForSeconds( 10.0f );
 		GlobalGameProperties.endGame = false;
 		GlobalGameProperties.playerShields = 100.0f;
@@ -97,10 +97,10 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void ToggleEnabledGameLabel( bool disable ){
-		foreach( UILabel happyLabel in listOfLabels ){
-			if ( happyLabel.tag == "JellyHit" ){
-			    NGUITools.SetActive( happyLabel.gameObject, disable );
-			}
-		}
+        //foreach( UILabel happyLabel in listOfLabels ){
+        //    if ( happyLabel.tag == "JellyHit" ){
+        //        NGUITools.SetActive( happyLabel.gameObject, disable );
+        //    }
+        //}
 	}
 }
