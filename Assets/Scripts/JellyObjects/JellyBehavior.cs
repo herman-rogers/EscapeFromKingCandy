@@ -3,26 +3,26 @@ using System.Collections;
 
 public class JellyBehavior : MonoBehaviour {
 	public Sprite changeSpriteColor;
-	Sprite        getCurrentJellySprite;
-	float         collisionTimer;
+	Sprite getCurrentJellySprite;
+	float collisionTimer;
 
-	void OnCollisionEnter2D( Collision2D col ){
-		if ( col.collider.name.Contains( "CandyGrenade" ) ){
+	private void OnTriggerEnter2D( Collider2D col ){
+        if ( col.name.Contains( "CandyGrenade" ) ) {
 			gameObject.tag = "JellyHit";
 		}
-		if ( col.collider.name.Contains( "CandyLaser" ) && gameObject.name.Contains( "blue" ) ){
+        if ( col.name.Contains( "CandyLaser" ) && gameObject.name.Contains( "blue" ) ) {
 			ChangePlatformColor( );
 		}
-		if ( col.collider.name.Contains( "EnemyCandy" ) && gameObject.name.Contains( "red" ) ){
-			StartCoroutine( DestroyEnemyShip( col.collider.gameObject ) );
+        if ( col.name.Contains( "EnemyCandy" ) && gameObject.name.Contains( "red" ) ) {
+			StartCoroutine( DestroyEnemyShip( col.GetComponent<Collider>().gameObject ) );
 		}
-		if( col.collider.name.Contains( "PlayerCandyShip" ) && Time.time > collisionTimer ){
+        if ( col.name.Contains( "PlayerCandyShip" ) && Time.time > collisionTimer ) {
 			collisionTimer = Time.time + 5.0f;
 			GlobalGameProperties.playerShields -= 1.0f;
 		}
 	}
 
-	void ChangePlatformColor( ){
+	private void ChangePlatformColor( ){
 		gameObject.tag = "JellyHit";
 		gameObject.GetComponent< SpriteRenderer >( ).sprite = changeSpriteColor;
 	}

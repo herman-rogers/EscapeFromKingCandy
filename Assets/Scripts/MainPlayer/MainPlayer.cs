@@ -29,11 +29,6 @@ public class MainPlayer : MonoBehaviour {
 		if ( Time.time > hitTimer && Time.time > regenTimer && GlobalGameProperties.playerShields < 100.0f ){
 			RegenerateShields( );
 		}
-
-		transform.position = new Vector3( Mathf.Clamp( transform.localPosition.x, -8.2f, 7.8f ),
-			                              Mathf.Clamp( transform.localPosition.y, -3.5f, 5.0f ),
-			                              transform.position.z );
-
 	}
 
 	IEnumerator StartDeathAnimation( ){

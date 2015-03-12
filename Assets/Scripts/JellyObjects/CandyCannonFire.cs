@@ -8,11 +8,11 @@ public class CandyCannonFire : PlayerWeapons {
 	}
 
 	override public void LaunchWeapon( ){
-		transform.Translate( Vector3.left * 5 * Time.deltaTime );
+		transform.Translate( Vector3.left * playerWeaponSpeed * Time.deltaTime );
 	}
 
-	override public void OnCollisionEnter2D ( Collision2D col ){
-		if ( col.collider.name.Contains( "PlayerCandyShip" ) ){
+	override public void OnTriggerEnter2D ( Collider2D col ){
+		if ( col.name.Contains( "PlayerCandyShip" ) ){
 			GetComponent<AudioSource>().Play( );
 			StartCoroutine( "LaserExplosion" );
 			GlobalGameProperties.playerShields -= 2.0f;

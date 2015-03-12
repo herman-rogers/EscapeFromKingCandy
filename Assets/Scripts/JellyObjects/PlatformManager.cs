@@ -2,17 +2,17 @@
 using System.Collections;
 
 public class PlatformManager : MonoBehaviour {
-	public GameObject   bluePlatform;
-	public GameObject   redPlatform;
-	public float        spawnRate = 2.0f;
-	public int          dropRate;
-	public int          platformPosition;
-	public bool         dropPlatforms;
-	public bool         dropShips;
+	public GameObject bluePlatform;
+	public GameObject redPlatform;
+	public float spawnRate = 2.0f;
+	public int dropRate;
+	public int platformPosition;
+	public bool dropPlatforms;
+	public bool dropShips;
 	JellyTurretBehavior getJellyTurretReference;
-	GameObject          getPlatformReference;
-	float               platformTimer = 0.0f;
-	float               shipTimer = 0.0f;
+	GameObject getPlatformReference;
+	float platformTimer = 0.0f;
+	float shipTimer = 0.0f;
 
 	void Update( ){
 		if ( Time.time > platformTimer && dropPlatforms ){
@@ -29,10 +29,12 @@ public class PlatformManager : MonoBehaviour {
 		string[] arrayOfRandomColors = GlobalGameProperties.getRandomColor.ToArray( );
 
 		if ( arrayOfRandomColors[platformPosition] == "blue" ){
-		    getPlatformReference = ( GameObject )Instantiate( bluePlatform, transform.localPosition, transform.rotation );
+		    getPlatformReference = ( GameObject )Instantiate( bluePlatform, transform.position, transform.rotation );
+            getPlatformReference.transform.parent = this.transform.parent;
 		}
 		if ( arrayOfRandomColors[platformPosition] == "red" ){
-			getPlatformReference = ( GameObject )Instantiate( redPlatform, transform.localPosition, transform.rotation );
+			getPlatformReference = ( GameObject )Instantiate( redPlatform, transform.position, transform.rotation );
+            getPlatformReference.transform.parent = this.transform.parent;
 		}
 		if ( getPlatformReference != null ){
 			getJellyTurretReference = getPlatformReference.GetComponentInChildren< JellyTurretBehavior >( );

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
@@ -13,20 +14,28 @@ public class GameManager : MonoBehaviour {
 	public GameObject mainPlayer;
 	public GameObject endGameScene;
 	public GameObject endGameLabel;
-
+    public GameObject levelRotator;
 	public GameObject textRoot;
-	public float      gameTime;
-    //List< UILabel >   listOfLabels;
-	float             timer;
+	public float gameTime;
+    private Quaternion originalRotation;
+    private Quaternion firstLevelRotation = new Quaternion(  );
+    private List< Text > listOfLabels;
+	private float timer;
+
+    public float levelRotationTest = 0;
 
 	void Start( ){
-        //UILabel[] getLabels = textRoot.GetComponentsInChildren< UILabel >( );
-        //listOfLabels = new List< UILabel >( );
-        //foreach( UILabel label in getLabels ){
-        //    if ( label.tag == "JellyHit" ){
-        //        listOfLabels.Add( label );
-        //    }
-        //}
+        Text[ ] getLabels = textRoot.GetComponentsInChildren<Text>( true );
+        originalRotation = levelRotator.transform.rotation;
+
+        firstLevelRotation = new Quaternion( originalRotation.x, originalRotation.y, levelRotationTest, originalRotation.w );
+
+        listOfLabels = new List< Text >( );
+        foreach ( Text label in getLabels ) {
+            if ( label.tag == "JellyHit" ) {
+                listOfLabels.Add( label );
+            }
+        }
 		GlobalGameProperties.currentLevelReached = 7;
 		ToggleEnabledGameLabel( false );
 	}
@@ -37,8 +46,14 @@ public class GameManager : MonoBehaviour {
 			StartCoroutine( DisplayEndOfGame( ) );
 		}
 
+        levelRotator.transform.rotation = firstLevelRotation;
+
 		if( GlobalGameProperties.showRandomMessage && Time.time > timer ){
-			StartCoroutine( DisplayHappyText( ) );
+            int getListIndex = Random.Range( 0, 3 );
+            if ( skipDuplicateHappyTexts != getListIndex ) {
+                skipDuplicateHappyTexts = getListIndex;
+                StartCoroutine( DisplayHappyText( getListIndex ) );
+            }
 		}
 		if ( gameTime > 30.0f && gameTime <= 60.0f ){
 			GlobalGameProperties.currentLevelReached = 6;
@@ -76,10 +91,12 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	IEnumerator DisplayHappyText( ){
-		int getListIndex = Random.Range( 0, 3 );
-        //UILabel[] arrayOfLabels = listOfLabels.ToArray( );
-        //NGUITools.SetActive( arrayOfLabels[getListIndex].gameObject, true );
+    private int skipDuplicateHappyTexts = -1;
+
+	IEnumerator DisplayHappyText( int index ){
+        skipDuplicateHappyTexts = index;
+        Text[] arrayOfLabels = listOfLabels.ToArray( );
+        arrayOfLabels[ index ].gameObject.SetActive( true );
 		GlobalGameProperties.showRandomMessage = false;
 		timer = Time.time + 2.0f;
 		yield return new WaitForSeconds( 1.5f );
@@ -97,10 +114,10 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void ToggleEnabledGameLabel( bool disable ){
-        //foreach( UILabel happyLabel in listOfLabels ){
-        //    if ( happyLabel.tag == "JellyHit" ){
-        //        NGUITools.SetActive( happyLabel.gameObject, disable );
-        //    }
-        //}
+        foreach ( Text happyLabel in listOfLabels ) {
+            if ( happyLabel.tag == "JellyHit" ) {
+                happyLabel.gameObject.SetActive( disable );
+            }
+        }
 	}
 }

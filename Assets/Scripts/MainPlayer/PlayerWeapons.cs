@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PlayerWeapons : MonoBehaviour {
 
+    public float playerWeaponSpeed = 10.0f;
+
 	void Start( ){
 		InvokeRepeating( "LaunchWeapon", Time.deltaTime, 0.009f );
 		DestroyProjectile( );
@@ -13,11 +15,11 @@ public class PlayerWeapons : MonoBehaviour {
 	}
 
 	virtual public void LaunchWeapon( ){
-		transform.Translate( Vector3.up * 10 * Time.deltaTime );
+		transform.Translate( Vector3.up * playerWeaponSpeed * Time.deltaTime );
 	}
 
-	virtual public void OnCollisionEnter2D( Collision2D col ){
-		if ( col.collider.name == "jelly_blue" || col.collider.name == "jelly_red" ){
+	virtual public void OnTriggerEnter2D( Collider2D col ){
+		if ( col.name == "jelly_blue" || col.name == "jelly_red" ){
 			StartCoroutine( LaserExplosion( ) );
 		}
 	}
