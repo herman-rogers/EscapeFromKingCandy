@@ -8,18 +8,13 @@ public class PlatformManager : MonoBehaviour {
 	public int dropRate;
 	public int platformPosition;
 	public bool dropPlatforms;
-	public bool dropShips;
 	JellyTurretBehavior getJellyTurretReference;
 	GameObject getPlatformReference;
 	float platformTimer = 0.0f;
-	float shipTimer = 0.0f;
 
 	void Update( ){
 		if ( Time.time > platformTimer && dropPlatforms ){
 			DropPlatform( );
-		}
-		if ( Time.time > shipTimer && dropShips ){
-			DropShips( );
 		}
 	}
 
@@ -30,11 +25,11 @@ public class PlatformManager : MonoBehaviour {
 
 		if ( arrayOfRandomColors[platformPosition] == "blue" ){
 		    getPlatformReference = ( GameObject )Instantiate( bluePlatform, transform.position, transform.rotation );
-            getPlatformReference.transform.parent = this.transform.parent;
+            getPlatformReference.transform.parent = this.transform;
 		}
 		if ( arrayOfRandomColors[platformPosition] == "red" ){
 			getPlatformReference = ( GameObject )Instantiate( redPlatform, transform.position, transform.rotation );
-            getPlatformReference.transform.parent = this.transform.parent;
+            getPlatformReference.transform.parent = this.transform;
 		}
 		if ( getPlatformReference != null ){
 			getJellyTurretReference = getPlatformReference.GetComponentInChildren< JellyTurretBehavior >( );
@@ -61,7 +56,7 @@ public class PlatformManager : MonoBehaviour {
 
 	void InvertCandyCannonRotation( ){
 		if ( getJellyTurretReference != null ){
-		    if ( this.transform.position.x < -5 ){
+            if ( gameObject.tag == "JellyHit" ){
     			GameObject candyCane = getJellyTurretReference.GetComponentInChildren< SpriteRenderer >( ).gameObject;
 	    		getJellyTurretReference.gameObject.transform.Rotate( 0,180,0 );
 		    	getJellyTurretReference.gameObject.transform.position = new Vector3( getJellyTurretReference.transform.position.x, 
@@ -70,15 +65,7 @@ public class PlatformManager : MonoBehaviour {
 			    candyCane.transform.localPosition = new Vector3( candyCane.transform.localPosition.x, 
 			                                           candyCane.transform.localPosition.y,
 			                                           -2.0f );
-			}
-		}
-	}
-
-	void DropShips( ){
-		shipTimer = Time.time + dropRate;
-		float randomTurretActivation = Random.Range( 0.0f, 100.0f );
-		if ( randomTurretActivation > dropRate ){
-			Instantiate( bluePlatform, transform.position, transform.rotation );
+            }
 		}
 	}
 }
