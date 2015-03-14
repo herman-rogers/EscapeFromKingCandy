@@ -20,6 +20,6 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	public void LoadMenu( ){
-		Application.LoadLevel( "FirstScene" );
+		Application.LoadLevel( "__FirstScene" );
 	}
 }

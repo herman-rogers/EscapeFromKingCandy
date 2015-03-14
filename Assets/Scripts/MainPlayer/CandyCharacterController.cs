@@ -10,8 +10,10 @@ public class CandyCharacterController : MonoBehaviour {
     private GameObject candyBarrelTwo;
     private float nextFire;
     private bool toggleFiringPosition;
+    private Vector3 cachedShipTransform;
 
     private void Start( ) {
+        cachedShipTransform = this.transform.position;
 		Transform[] getBarrelReferences = this.gameObject.GetComponentsInChildren< Transform >( );
 		foreach( Transform gunBarrel in getBarrelReferences ){
 			if ( gunBarrel.gameObject.name == "candybarrel1" ){
@@ -30,11 +32,17 @@ public class CandyCharacterController : MonoBehaviour {
 	}
 
     private void MovePlayerVertical( ) {
-        this.transform.Translate( Vector3.up * Input.GetAxis( "Vertical" ) * characterSpeed * Time.deltaTime );
+        if ( transform.localPosition.y <= -550.0f || transform.localPosition.y >= 550.0f ) {
+            transform.position = cachedShipTransform;
+        }
+        transform.Translate( Vector3.up * Input.GetAxis( "Vertical" ) * characterSpeed * Time.deltaTime );
 	}
 
     private void MovePlayerHorizontal( ) {
-        this.transform.Translate( Vector3.right * Input.GetAxis( "Horizontal" ) * characterSpeed * Time.deltaTime );
+        if ( transform.localPosition.x <= -600.0f || transform.localPosition.x >= 600.0f ) {
+            transform.position = cachedShipTransform;
+        }
+        transform.Translate( Vector3.right * Input.GetAxis( "Horizontal" ) * characterSpeed * Time.deltaTime );
 	}
 
     private void PlayerHasFiredCandyGun( ) {
@@ -42,7 +50,7 @@ public class CandyCharacterController : MonoBehaviour {
 			FireCandyLaser( );
 		}
 		if ( Input.GetButton( "Fire2" ) && Time.time >= nextFire ){
-			FireCandyGrenade( );
+			FireCandyLaser( );
 		}
 	}
 

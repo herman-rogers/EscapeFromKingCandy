@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour {
     public GameObject platformLeft;
     public GameObject platformRight;
     public GameObject mainPlayer;
-    public GameObject endGameScene;
     public GameObject endGameLabel;
     public GameObject levelRotator;
     public GameObject textRoot;
@@ -76,7 +75,7 @@ public class GameManager : MonoBehaviour {
         if ( currentGameState != GameLevelState.START_LEVEL && rotationTimer > rotationTimeLimit ) {
             int platformRotation = 10;
             int rotationDirection = 1;
-            platformRotation = Random.Range( 50, 100 );
+            platformRotation = Random.Range( 0, 100 );
             negativeToggle = negativeToggle * -1;
             rotationDirection = negativeToggle;
             rotationTimer = 0.0f;
@@ -95,20 +94,19 @@ public class GameManager : MonoBehaviour {
             currentGameState = GameLevelState.THIRD_LEVEL;
         }
         if ( gameTime > 130.0f && gameTime <= 190.0f && currentGameState == GameLevelState.THIRD_LEVEL ) {
-            currentGameState = GameLevelState.THIRD_LEVEL;
+            currentGameState = GameLevelState.FOURTH_LEVEL;
             mainPlayer.GetComponent<MainPlayer>( ).regenTimerLength = 1.0f;
             platformRight.GetComponent<PlatformManager>( ).dropRate = 60;
         }
         if ( gameTime > 190.0f && gameTime <= 220.0f && currentGameState == GameLevelState.FOURTH_LEVEL ) {
-            currentGameState = GameLevelState.FOURTH_LEVEL;
-            platformRight.GetComponent<PlatformManager>( ).dropRate = 50;
-        }
-        if ( gameTime > 220.0f && gameTime <= 320.0f && currentGameState == GameLevelState.FIFTH_LEVEL ) {
             currentGameState = GameLevelState.FIFTH_LEVEL;
             platformRight.GetComponent<PlatformManager>( ).dropRate = 50;
         }
-        if ( GlobalGameProperties.kingCandyShip <= 0 ) {
+        if ( gameTime > 220.0f && gameTime <= 320.0f && currentGameState == GameLevelState.FIFTH_LEVEL ) {
             currentGameState = GameLevelState.END_LEVEL;
+            platformRight.GetComponent<PlatformManager>( ).dropRate = 50;
+        }
+        if ( GlobalGameProperties.kingCandyShip <= 0 ) {
             GlobalGameProperties.endGame = false;
             GlobalGameProperties.playerShields = 100.0f;
             Application.LoadLevel( "EndGame" );
@@ -128,12 +126,11 @@ public class GameManager : MonoBehaviour {
     }
 
     IEnumerator DisplayEndOfGame( ) {
-        //NGUITools.SetActive( endGameLabel, true );
-        //NGUITools.SetActive( endGameScene, true );
+        endGameLabel.SetActive( true );
         yield return new WaitForSeconds( 10.0f );
         GlobalGameProperties.endGame = false;
         GlobalGameProperties.playerShields = 100.0f;
-        Application.LoadLevel( "FirstScene" );
+        Application.LoadLevel( "__FirstScene" );
     }
 
     void ToggleEnabledGameLabel( bool disable ) {

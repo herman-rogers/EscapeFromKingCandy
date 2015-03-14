@@ -16,6 +16,8 @@ public class JellyBehavior : MonoBehaviour {
         if ( col.name.Contains( "PlayerCandyShip" ) && Time.time > collisionTimer ) {
             collisionTimer = Time.time + 5.0f;
             GlobalGameProperties.playerShields -= 1.0f;
+            Subject.Notify( GameFontManager.PLAYER_HURT );
+            GetComponent<AudioSource>( ).Play( );
         }
     }
 
@@ -30,7 +32,7 @@ public class JellyBehavior : MonoBehaviour {
         yield return new WaitForSeconds( 0.1f );
         GetComponent<Animator>( ).enabled = true;
         GlobalGameProperties.showRandomMessage = true;
-        yield return new WaitForSeconds( 0.1f );
+        yield return new WaitForSeconds( 0.2f );
         Destroy( gameObject );
     }
 
