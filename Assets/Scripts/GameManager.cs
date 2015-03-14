@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour {
         }
         if ( GlobalGameProperties.kingCandyShip <= 0 ) {
             GlobalGameProperties.endGame = false;
+            GlobalGameProperties.kingCandyShip = 600.0f;
             GlobalGameProperties.playerShields = 100.0f;
             Application.LoadLevel( "EndGame" );
         }
@@ -130,6 +131,7 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSeconds( 10.0f );
         GlobalGameProperties.endGame = false;
         GlobalGameProperties.playerShields = 100.0f;
+        GlobalGameProperties.kingCandyShip = 600.0f;
         Application.LoadLevel( "__FirstScene" );
     }
 
